@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * @property int            $id             Уникальный идентификатор продукта
- * @property string         $name           Имя продукта
- * @property string|null    $description    Описание продукта
- * @property string         $price          Цена продукта
+ * @property int            $id             Уникальный идентификатор товара
+ * @property string         $name           Имя товара
+ * @property string|null    $description    Описание товара
+ * @property string         $price          Цена товара
  * @property int            $category_id    ID категории
  * @property Carbon|null    $created_at     Дата создания
  * @property Carbon|null    $updated_at     Дата обновления
