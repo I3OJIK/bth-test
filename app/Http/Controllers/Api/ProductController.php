@@ -7,6 +7,7 @@ use App\Http\Requests\ProductFilterRequest;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Services\CategoryService;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -15,7 +16,7 @@ use Illuminate\Http\Response;
 class ProductController extends Controller
 {
     public function __construct(
-        private ProductService $productService
+        private ProductService $productService,
     )
     {}
 
@@ -27,8 +28,8 @@ class ProductController extends Controller
     public function index(ProductFilterRequest $request): AnonymousResourceCollection
     {
         $products = $this->productService->getPaginatedProducts(
-            $request->filters(),
-            $request->perPage()
+            $request->perPage(),
+            $request->filters()
         );
 
         return ProductResource::collection($products);
@@ -45,7 +46,7 @@ class ProductController extends Controller
     {
         $data = $request->validated();
 
-        $product = $this->productService->createProduct($data);
+        $product = $this->productService->create($data);
 
         return (new ProductResource($product))
             ->response()
@@ -60,8 +61,6 @@ class ProductController extends Controller
      */
     public function show(Product $product): ProductResource
     {
-        $product = $this->productService->getProduct($product->id);
-
         return new ProductResource($product);
     }
 
@@ -76,7 +75,7 @@ class ProductController extends Controller
     {
         $data = $request->validated();
 
-        $product = $this->productService->updateProduct($product, $data);
+        $product = $this->productService->update($product, $data);
 
         return new ProductResource($product);
     }
@@ -89,7 +88,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product): Response
     {
-        $this->productService->deleteProduct($product);
+        $this->productService->delete($product);
 
         return response()->noContent();
     }

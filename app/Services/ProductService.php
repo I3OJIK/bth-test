@@ -22,8 +22,8 @@ class ProductService
      * @return LengthAwarePaginator
      */
     public function getPaginatedProducts(
-        array $filters = [],
-        int $perPage = 15
+        int $perPage = 15,
+        array $filters = []
     ): LengthAwarePaginator {
         $query = Product::query()
             ->with('category');
@@ -40,7 +40,7 @@ class ProductService
      * 
      * @return Product
      */
-    public function getProduct(int $id): Product
+    public function getById(int $id): Product
     {
         return Product::with('category')->findOrFail($id);
     }
@@ -52,7 +52,7 @@ class ProductService
      * 
      * @return Product
      */
-    public function createProduct(array $data): Product
+    public function create(array $data): Product
     {
         return Product::create($data);
     }
@@ -65,7 +65,7 @@ class ProductService
      * 
      * @return Product
      */
-    public function updateProduct(Product $product, array $data): Product
+    public function update(Product $product, array $data): Product
     {
         $product->update($data);
 
@@ -79,7 +79,7 @@ class ProductService
      * 
      * @return void
      */
-    public function deleteProduct(Product $product): void
+    public function delete(Product $product): void
     {
         $product->delete();
     }

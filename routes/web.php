@@ -1,7 +1,17 @@
 <?php
 
+use App\Http\Controllers\Inertia\Admin\AdminProductController;
+use App\Http\Controllers\Inertia\Web\WebProductController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+
+//публичные роуты
+Route::get('/', [WebProductController::class, 'index']);
+Route::get('/product/{product}', [WebProductController::class, 'show']);
+
+//защищенные роуты
+Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
+    Route::get('/products', [AdminProductController::class, 'index']);
+    Route::get('/products/create', [AdminProductController::class, 'create']);
+    Route::get('/products/{product}/edit', [AdminProductController::class, 'edit']);
 });
