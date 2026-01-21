@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductFilterRequest;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
@@ -23,9 +24,12 @@ class ProductController extends Controller
      *
      * @return AnonymousResourceCollection
      */
-    public function index(): AnonymousResourceCollection
+    public function index(ProductFilterRequest $request): AnonymousResourceCollection
     {
-        $products = $this->productService->getPaginatedProducts(15);
+        $products = $this->productService->getPaginatedProducts(
+            $request->filters(),
+            $request->perPage()
+        );
 
         return ProductResource::collection($products);
     }

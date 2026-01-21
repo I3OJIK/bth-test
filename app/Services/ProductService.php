@@ -2,14 +2,19 @@
 
 namespace App\Services;
 
+use App\Filters\Product\ProductFilter;
 use App\Models\Product;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class ProductService
 {
+    public function __construct(
+        private ProductFilter $filter
+    )
+    {}
 
     /**
-     * Пагинированный список товаров
+     * Пагинированный список товаров с возможностью фильтрации
      * 
      * @param int $perPage
      * @param int|null $categoryId
@@ -17,17 +22,15 @@ class ProductService
      * @return LengthAwarePaginator
      */
     public function getPaginatedProducts(
-        int $perPage = 15,
-        ?int $categoryId = null
+        array $filters = [],
+        int $perPage = 15
     ): LengthAwarePaginator {
-        return Product::query()
-            ->with('category')
-            ->when(
-                $categoryId,
-                fn($q) =>
-                $q->where('category_id', $categoryId)
-            )
-            ->paginate($perPage);
+        $query = Product::query()
+            ->with('category');
+
+        $query = $this->filter->apply($query, $filters);
+
+        return $query->paginate($perPage);
     }
 
     /**
