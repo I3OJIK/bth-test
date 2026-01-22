@@ -1,5 +1,13 @@
 @import 'tailwindcss';
 
+/* .border {
+    @apply border-gray-200;
+  } */
+  
+  .hover\:shadow-lg {
+    @apply transition-shadow duration-200;
+  }
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';

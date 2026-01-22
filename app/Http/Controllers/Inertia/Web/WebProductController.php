@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Inertia\Web;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductFilterRequest;
 use App\Models\Product;
+use App\Services\CategoryService;
 use App\Services\ProductService;
 use Inertia\Inertia;
 
 class WebProductController extends Controller
 {
     public function __construct(
-        private ProductService $productService
+        private ProductService $productService,
+        private CategoryService $categoryService,
     )
     {}
 
@@ -25,9 +27,12 @@ class WebProductController extends Controller
             $request->filters()
         );
 
+        $categories = $this->categoryService->getAll();
+
         return Inertia::render('Home', [
             'products' => $products,
             'filters' => $request->filters(),
+            'categories' => $categories,
         ]);
     }
 

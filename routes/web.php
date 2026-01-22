@@ -3,11 +3,15 @@
 use App\Http\Controllers\Inertia\Admin\AdminProductController;
 use App\Http\Controllers\Inertia\Web\WebProductController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
+Route::get('/login', function () {
+    return Inertia::render('Auth/Login');
+})->name('login');
 
 //публичные роуты
 Route::get('/', [WebProductController::class, 'index']);
-Route::get('/product/{product}', [WebProductController::class, 'show']);
+Route::get('/product/{id}', [WebProductController::class, 'show']);
 
 //защищенные роуты
 Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
