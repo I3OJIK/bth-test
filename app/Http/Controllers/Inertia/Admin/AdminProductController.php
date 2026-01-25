@@ -22,15 +22,8 @@ class AdminProductController extends Controller
      */
     public function index(ProductFilterRequest $request)
     {
-        $products = $this->productService->getPaginatedProducts(
-            $request->perPage(),
-            $request->filters()
-        );
 
-        return Inertia::render('Home', [
-            'products' => $products,
-            'filters' => $request->filters(),
-        ]);
+        return Inertia::render('Admin/Products/Index');
     }
 
     /**

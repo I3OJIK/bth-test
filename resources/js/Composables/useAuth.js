@@ -8,6 +8,9 @@ export function useAuth() {
   const loading = ref(false)
   const error = ref(null)
 
+  if (token) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  }
   // Синхронизация токена с axios
   const setAxiosToken = (t) => {
     if (t) {

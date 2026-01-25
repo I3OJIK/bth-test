@@ -1,12 +1,13 @@
 <template>
     <AppLayout>
+      
         <div class="container mx-auto px-4 py-8">
             <h1 class="text-3xl font-bold mb-8">Каталог товаров</h1>
             
             <CategoryFilter :categories="categories" :isLoading="isLoading" :selectedCategory="selectedCategory" @handleCategoryChange="handleCategoryChange"></CategoryFilter>
 
             <!-- Список товаров -->
-            <ProductList :products="products.data" />
+            <ProductList :products="products.data"  />
 
             <Pagination :links="paginationLinks" :isLoading="isLoading" :meta="products.meta" @changePage="changeByLink" />
             
@@ -33,7 +34,8 @@ const {
   selectedCategory,
   paginationLinks,
   isLoading,
-  fetchProducts
+  fetchProducts,
+  isAuthenticated,
 } = useProducts()
 
 const { read } = useUrlState()

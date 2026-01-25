@@ -11,16 +11,27 @@
     <Link :href="`/product/${product.id}`" class="inline-block text-blue-600 hover:text-blue-800 font-medium">
       Подробнее →
     </Link>
+
+    <!-- Слот для действий -->
+    <slot name="actions" :product="product">
+        <!-- По умолчанию пусто (для публичной страницы) -->
+      </slot>
   </div>
 </template>
 
 <script setup>
-import { defineProps} from 'vue'
+import { defineProps, defineEmits } from 'vue'
 import { Link } from '@inertiajs/vue3'
 
 const props = defineProps({
-  product: Object
+  product: Object,
 })
+
+// const emit = defineEmits(['deleteProduct'])
+
+// function deleteProduct(productId) {
+//   emit('editProduct', productId)
+// }
 
 function formatPrice(price) {
   if (!price && price !== 0) return '—'
