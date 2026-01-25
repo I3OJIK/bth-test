@@ -2,7 +2,7 @@ services:
 
   php:
     build: docker/php
-    container_name: php-fpm
+    container_name: php
     tty: true
     volumes:
       - ./:/var/www/app
