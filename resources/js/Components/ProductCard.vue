@@ -14,24 +14,17 @@
 
     <!-- Слот для действий -->
     <slot name="actions" :product="product">
-        <!-- По умолчанию пусто (для публичной страницы) -->
-      </slot>
+    </slot>
   </div>
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue'
+import { defineProps } from 'vue'
 import { Link } from '@inertiajs/vue3'
 
 const props = defineProps({
   product: Object,
 })
-
-// const emit = defineEmits(['deleteProduct'])
-
-// function deleteProduct(productId) {
-//   emit('editProduct', productId)
-// }
 
 function formatPrice(price) {
   if (!price && price !== 0) return '—'

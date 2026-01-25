@@ -11,7 +11,7 @@ Route::get('/login', function () {
 
 //публичные роуты
 Route::get('/', [WebProductController::class, 'index']);
-Route::get('/product/{id}', [WebProductController::class, 'show']);
+Route::get('/product/{id}', [WebProductController::class, 'show'])->where('id', '[0-9]+');
 
 //защищенные роуты
 Route::prefix('admin')->middleware('auth:sanctum')->group(function () {

@@ -4,20 +4,23 @@
             <div v-if="!isAuthenticated" class="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
                 <h2 class="text-2xl font-bold mb-6 text-center">Вход в систему</h2>
 
-                <div class="flex flex-col gap-4">
+                <form @submit.prevent="submit" class="flex flex-col gap-4">
                     <div class="flex flex-col gap-1">
                         <label for="email">Email</label>
-                        <InputText id="email" type="text" class="w-full" v-model="email" />
+                        <InputText id="email" type="text" class="w-full" v-model="email" autocomplete="username"/>
                     </div>
 
                     <div class="flex flex-col gap-1">
                         <label for="password">Password</label>
-                        <InputText id="password" type="password" class="w-full" v-model="password" />
+                        <InputText id="password" type="password" class="w-full" v-model="password" autocomplete="current-password" />
                     </div>
 
-                    <Button label="Login" icon="pi pi-user" class="w-full mt-3" :loading="loading" @click="submit" />
+                    <Button type="submit" label="Login" icon="pi pi-user" class="w-full mt-3" :loading="loading" />
                     <p v-if="error" class="text-red-600 mt-2 text-sm text-center">{{ error }}</p>
-                </div>
+                </form>
+            </div>
+            <div v-else class="w-full max-w-md p-6 ">
+                <h2 class="text-2xl font-bold mb-6">Вы успешно авторизованы</h2>
             </div>
         </div>
     </AppLayout>
@@ -34,6 +37,6 @@ const password = ref('')
 const { login, loading, error, isAuthenticated } = useAuth()
 
 function submit() {
-  login(email.value, password.value)
+    login(email.value, password.value)
 }
 </script>

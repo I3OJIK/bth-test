@@ -16,8 +16,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
-import axios from 'axios'
+import {  onMounted } from 'vue'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import CategoryFilter from '@/Components/CategoryFilter.vue'
 import ProductList from '@/Components/ProductList.vue'
@@ -59,17 +58,3 @@ onMounted(async () => {
 
 </script>
 
-<style scoped>
-.line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-/* Стили для кнопок пагинации */
-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-</style>

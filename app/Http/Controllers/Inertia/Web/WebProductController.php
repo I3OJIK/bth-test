@@ -39,10 +39,10 @@ class WebProductController extends Controller
     /**
      * Карточка товара
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        return Inertia::render('ProductShow', [
-            'product' => $product,
+        return Inertia::render('Product/Show', [
+            'productId' => (int) $id,
         ]);
     }
 }
