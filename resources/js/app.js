@@ -1,13 +1,18 @@
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
-
+import axios from 'axios';
 // import 'primeflex/primeflex.css'
 import 'primeicons/primeicons.css'
 import PrimeVue from 'primevue/config'
 import Aura from '@primeuix/themes/aura'
 import Button  from 'primevue/button'
-import { definePreset } from '@primeuix/themes';
-import {Dialog, InputText, Password} from 'primevue'
+import { definePreset } from '@primeuix/themes'
+import ToastService from 'primevue/toastservice'
+import {Dialog, InputText, Password, Select, InputNumber, Textarea } from 'primevue'
+
+axios.defaults.baseURL = '/api';
+axios.defaults.headers.common['Content-Type'] = 'application/json';
+axios.defaults.headers.common['Accept'] = 'application/json';
 
 const MyPreset = definePreset(Aura, {
     semantic: {
@@ -40,10 +45,13 @@ createInertiaApp({
                     preset: MyPreset,
                 },
             })
+            .use(ToastService)
             .component('Button', Button)
             .component('InputText', InputText)
             .component('Password', Password)
-            .component('Dialog', Dialog)
+            .component('InputNumber', InputNumber)
+            .component('Textarea', Textarea)
+            .component('Select', Select)
             .mount(el)
     },
 })

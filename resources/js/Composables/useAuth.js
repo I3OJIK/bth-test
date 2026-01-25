@@ -8,25 +8,23 @@ export function useAuth() {
   const loading = ref(false)
   const error = ref(null)
 
-  if (token.value) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-  }
-  // Синхронизация токена с axios
-  const setAxiosToken = (t) => {
-    if (t) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${t}`
-    } else {
-      delete axios.defaults.headers.common['Authorization']
-    }
-  }
+  // динамическая установка заголовка
+  axios.interceptors.request.use(
+    (config) => {
+      const storedToken = localStorage.getItem('token')
+      if (storedToken) {
+        config.headers.Authorization = `Bearer ${storedToken}`
+      } else {
+        delete config.headers.Authorization
+      }
+      return config
+    },
+    (err) => Promise.reject(err)
+  )
 
-  // Инициализация axios
-  setAxiosToken(token.value)
 
-  // Слежение за токеном
   watch(token, (newToken) => {
     isAuthenticated.value = !!newToken
-    setAxiosToken(newToken)
     if (!newToken) {
       router.visit('/login') // редирект на логин при logout
     }
@@ -38,11 +36,11 @@ export function useAuth() {
     error.value = null
 
     try {
-      const response = await axios.post('/api/login', { email, password })
+      const response = await axios.post('/login', { email, password })
 
       token.value = response.data.token
       localStorage.setItem('token', token.value)
-
+      
       // После входа редирект на защищённый маршрут
       router.visit('/admin/products')
     } catch (e) {

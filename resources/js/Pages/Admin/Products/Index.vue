@@ -8,7 +8,7 @@
 
                 <Button label="Редактировать" variant="text" rounded>
                     <i class="pi pi-plus"></i>
-                    <Link href="/products/create" class="flex items-center gap-2 ">
+                    <Link href="/admin/products/create" class="flex items-center gap-2 ">
                         Добавить товар
                     </Link>
                 </Button>
@@ -20,7 +20,7 @@
                     <div class="flex gap-4 mt-4 justify-between">
                         <Button label="Редактировать" severity="warn" variant="text" rounded>
                             <i class="pi pi-pencil"></i>
-                            <Link :href="`/products/${product.id}/edit`" class="flex items-center gap-2">
+                            <Link :href="`/admin/products/${product.id}/edit`" class="flex items-center gap-2">
                                 Редактировать
                             </Link>
                         </Button>
@@ -51,6 +51,12 @@ import { useProducts } from '@/Composables/useProducts'
 import { useCategories } from '@/Composables/useCategories'
 import { usePagination } from '@/Composables/usePagination'
 import { useUrlState } from '@/Composables/useUrlState'
+import { useToast } from 'primevue/usetoast'
+import { usePage } from '@inertiajs/vue3'
+
+const pagee = usePage()
+
+const toast = useToast();
 
 const { categories, fetchCategories } = useCategories()
 const {
@@ -65,6 +71,7 @@ const {
 const { read } = useUrlState()
 
 const { changeByLink } = usePagination(fetchProducts)
+
 
 function handleCategoryChange(category) {
     selectedCategory.value = category
@@ -89,24 +96,16 @@ onMounted(async () => {
     await fetchCategories()
     const { category, page } = read()
     selectedCategory.value = category
-
     fetchProducts(page)
+    if (pagee.url.includes('saved')) {
+        toast.add({
+            severity: 'success',
+            summary: 'Успешно',
+            detail: 'Изменения сохранены',
+            life: 3000,
+        })
+    }
 })
 
 
 </script>
-
-<style scoped>
-.line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-/* Стили для кнопок пагинации */
-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-</style>

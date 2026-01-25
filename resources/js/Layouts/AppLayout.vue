@@ -39,6 +39,7 @@
 
         <!-- CONTENT -->
         <main class="flex-1">
+            <Toast />
             <slot />
         </main>
 
@@ -55,6 +56,7 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
 import { useAuth } from '@/Composables/useAuth'
+import Toast from 'primevue/toast'
 
 const { isAuthenticated, logout } = useAuth()
 </script>

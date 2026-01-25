@@ -31,23 +31,17 @@ class AdminProductController extends Controller
      */
     public function create()
     {
-        $categories = $this->categoryService->getAll();
 
-        return Inertia::render('Admin/ProductForm', [
-            'categories' => $categories,
-        ]);
+        return Inertia::render('Admin/Products/Create');
     }
 
     /**
      * Форма редактирования товара
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
-        $categories = $this->categoryService->getAll();
-
-        return Inertia::render('Admin/ProductForm', [
-            'product' => $product,
-            'categories' => $categories,
+        return Inertia::render('Admin/Products/Edit', [
+            'productId' => (int) $id,
         ]);
     }
 }

@@ -17,5 +17,5 @@ Route::get('/product/{id}', [WebProductController::class, 'show'])->where('id', 
 Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
     Route::get('/products', [AdminProductController::class, 'index']);
     Route::get('/products/create', [AdminProductController::class, 'create']);
-    Route::get('/products/{product}/edit', [AdminProductController::class, 'edit']);
+    Route::get('/products/{id}/edit', [AdminProductController::class, 'edit']);
 });

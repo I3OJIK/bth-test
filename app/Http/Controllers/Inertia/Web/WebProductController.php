@@ -20,20 +20,9 @@ class WebProductController extends Controller
     /**
      * Главная страница: список товаров с пагинацией и фильтром
      */
-    public function index(ProductFilterRequest $request)
+    public function index()
     {
-        $products = $this->productService->getPaginatedProducts(
-            $request->perPage(),
-            $request->filters()
-        );
-
-        $categories = $this->categoryService->getAll();
-
-        return Inertia::render('Home', [
-            'products' => $products,
-            'filters' => $request->filters(),
-            'categories' => $categories,
-        ]);
+        return Inertia::render('Home');
     }
 
     /**

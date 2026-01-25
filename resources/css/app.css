@@ -1,8 +1,8 @@
 @import 'tailwindcss';
 
-/* .border {
+.border {
     @apply border-gray-200;
-  } */
+  }
   
   .hover\:shadow-lg {
     @apply transition-shadow duration-200;
