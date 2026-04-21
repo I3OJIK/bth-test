@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Inertia\Web;
+namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;
 
-class WebProductController extends Controller
+class ProductWebController extends Controller
 {
 
     /**

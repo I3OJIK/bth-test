@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\inertia\Admin;
+namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductFilterRequest;
 use Inertia\Inertia;
 
-class AdminProductController extends Controller
+class ProductAdminController extends Controller
 {
     /**
      * Список товаров для администратора

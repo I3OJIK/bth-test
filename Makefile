@@ -11,6 +11,7 @@ down:
 migrate:
 	docker compose exec php php artisan migrate:fresh --seed
 frontend:
+	npm install
 	npm run dev
 setup:
 	$(MAKE) env;
