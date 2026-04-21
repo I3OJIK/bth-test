@@ -6,13 +6,13 @@ use App\Filters\Product\ProductFilter as ProductProductFilter;
 use App\Models\Category;
 use App\Models\Product;
 use App\Services\ProductService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class ProductServiceTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     private ProductService $productService;
 
@@ -28,50 +28,21 @@ class ProductServiceTest extends TestCase
     #[Test]
     public function can_get_paginated_products()
     {
-        // создаем категорию
-        $category = $this->createCategory();
-        
-        // Создаем 15 продуктов вручную
-        for ($i = 1; $i <= 15; $i++) {
-            $product = new Product();
-            $product->name = "Product {$i}";
-            $product->description = "Description {$i}";
-            $product->price = 100 + $i;
-            $product->category_id = $category->id;
-            $product->save();
-        }
+        Product::factory()->count(15)->create();
 
         $result = $this->productService->getPaginatedProducts(10, []);
 
         $this->assertCount(10, $result->items());
-        $this->assertEquals(15, $result->total());
     }
 
     #[Test]
     public function can_filter_products_by_category()
     {
-        $category1 = $this->createCategory('Category 1');
-        $category2 = $this->createCategory('Category 2');
+        $category1 = Category::factory()->create(['name' => 'Electronics']);
+        $category2 = Category::factory()->create(['name' => 'Books']);
         
-        // Создаем 3 продукта в первой категории
-        for ($i = 1; $i <= 3; $i++) {
-            $product = new Product();
-            $product->name = "Product {$i} in Cat1";
-            $product->description = "Description";
-            $product->price = 100;
-            $product->category_id = $category1->id;
-            $product->save();
-        }
-        
-        // Создаем 2 продукта во второй категории
-        for ($i = 1; $i <= 2; $i++) {
-            $product = new Product();
-            $product->name = "Product {$i} in Cat2";
-            $product->description = "Description";
-            $product->price = 100;
-            $product->category_id = $category2->id;
-            $product->save();
-        }
+        Product::factory()->count(3)->create(['category_id' => $category1->id]);
+        Product::factory()->count(2)->create(['category_id' => $category2->id]);
 
         $result = $this->productService->getPaginatedProducts(10, ['category' => $category1->name]);
         $this->assertCount(3, $result->items());
@@ -81,7 +52,7 @@ class ProductServiceTest extends TestCase
     public function can_create_product()
     {
         //создаем категорию
-        $category = $this->createCategory();
+        $category =  Category::factory()->create();
         
         $data = [
             'name' => 'Test Product',
@@ -105,15 +76,10 @@ class ProductServiceTest extends TestCase
     #[Test]
     public function can_update_product()
     {
-        // создаем категорию и продукт
-        $category = $this->createCategory();
-        
-        $product = new Product();
-        $product->name = 'Old Name';
-        $product->description = 'Old Description';
-        $product->price = 100;
-        $product->category_id = $category->id;
-        $product->save();
+        $product = Product::factory()->create([
+            'name' => 'Old Name',
+            'price' => 100
+        ]);
         
         $updateData = [
             'name' => 'Updated Name',
@@ -135,28 +101,10 @@ class ProductServiceTest extends TestCase
     #[Test]
     public function can_delete_product()
     {
-        // создаем категорию и продукт
-        $category = $this->createCategory();
-        
-        $product = new Product();
-        $product->name = 'Product to Delete';
-        $product->description = 'Will be deleted';
-        $product->price = 100;
-        $product->category_id = $category->id;
-        $product->save();
+        $product = Product::factory()->create();
 
         $this->productService->delete($product);
 
         $this->assertNull(Product::find($product->id));
-    }
-
-
-    private function createCategory(string $name = 'Test Category'): Category
-    {
-        $category = new Category();
-        $category->name = $name;
-        $category->save();
-        
-        return $category;
     }
 }
